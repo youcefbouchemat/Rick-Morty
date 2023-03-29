@@ -20,14 +20,26 @@ struct HomeScreen: View {
                 }
                 .navigationTitle("Characters")
             case .na:
-                Text("na")
+                Text("No Content")
             case .loading:
                 ProgressView()
-            case .failed(error: let error):
-                Text(String(describing: error))
+            case .failed(error: _):
+                EmptyView()
             }
-        }.task {
+        }
+        .task {
             await vm.fetchCharacter()
+        }
+        .alert("Error", isPresented: $vm.hasError, presenting: vm.state) { detail in
+            Button("Retry") {
+                Task{
+                    await vm.fetchCharacter()
+                }
+            }
+        } message: { detail in
+            if case let .failed(error) = detail{
+                Text(error.localizedDescription)
+            }
         }
     }
 }

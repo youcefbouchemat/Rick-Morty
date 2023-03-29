@@ -23,6 +23,8 @@ final class CharacterViewModel: CharacterViewModelProtocol{
     
     @Published private(set) var state: State = .na
     
+    @Published var hasError: Bool = false;
+    
     private let service: CharacterService
     
     init(service: CharacterService) {
@@ -31,11 +33,13 @@ final class CharacterViewModel: CharacterViewModelProtocol{
     
     func fetchCharacter() async {
         self.state = .loading
+        self.hasError = false
         
         do{
             let characters = try await service.fetchCharacters()
             self.state = .success(data: characters)
         } catch {
+            self.hasError = true
             self.state = .failed(error: error)
         }
     }
