@@ -11,6 +11,7 @@ protocol CharacterViewModelProtocol: ObservableObject{
     func fetchCharacter() async
 }
 
+@MainActor
 final class CharacterViewModel: CharacterViewModelProtocol{
     
     enum State{

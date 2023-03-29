@@ -7,6 +7,10 @@
 
 import Foundation
 
+struct CharacterServiceResult: Codable{
+    let results: [CharacterModel]
+}
+
 struct CharacterModel: Codable{
     let id: Int
     let name: String

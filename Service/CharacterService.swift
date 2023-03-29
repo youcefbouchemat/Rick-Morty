@@ -29,6 +29,7 @@ final class CharacterService: CharacterServiceProtocol{
               response.statusCode == 200 else{
             throw CharacterServiceError.invalidStatusCode
         }
-        return try JSONDecoder().decode([CharacterModel].self, from: data)
+        let decodedData = try JSONDecoder().decode(CharacterServiceResult.self, from: data)
+        return decodedData.results
     }
 }
